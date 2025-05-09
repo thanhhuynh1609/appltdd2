@@ -141,44 +141,20 @@ class _CategoryProductState extends State<CategoryProduct> {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 2,
-          title: Text(
-            "${widget.category} Products",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          centerTitle: true,
+    // Xóa điều kiện if (kIsWeb)
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xfff2f2f2),
+      ),
+      body: Container(
+        margin: EdgeInsets.only(left: 20, right: 20),
+        child: Column(
+          children: [
+            Expanded(child: allProducts()),
+          ],
         ),
-        body: Container(
-          width: MediaQuery.of(context).size.width, // Full chiều ngang
-          height: MediaQuery.of(context).size.height, // Full chiều cao
-          color: Colors.grey[100], // Màu nền nhẹ cho web
-          child: allProducts(),
-        ),
-      );
-    } else {
-      // Giữ nguyên giao diện gốc cho app
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xfff2f2f2),
-        ),
-        body: Container(
-          margin: EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            children: [
-              Expanded(child: allProducts()),
-            ],
-          ),
-        ),
-      );
-    }
+      ),
+    );
   }
 }
 

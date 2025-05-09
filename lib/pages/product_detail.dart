@@ -47,232 +47,121 @@ class _ProductDetailState extends State<ProductDetail> {
     String base64Image = widget.image;
     Uint8List bytes = base64Decode(base64Image);
 
-    if (kIsWeb) {
-      return Scaffold(
-        backgroundColor: Color(0xfffef5f1),
-        body: Container(
-          width: MediaQuery.of(context).size.width, // Full chiều ngang
-          height: MediaQuery.of(context).size.height, // Full chiều cao
-          child: Row(
-            children: [
-              // Phần bên trái: Hình ảnh sản phẩm
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.all(40),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Image.memory(
-                          bytes,
-                          height: MediaQuery.of(context).size.height * 0.7,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        top: 20,
-                        left: 20,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(30),
-                              color: Colors.white.withOpacity(0.8),
-                            ),
-                            child: Icon(Icons.arrow_back_ios_outlined, size: 20),
-                          ),
-                        ),
-                      ),
-                    ],
+    return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: Container(
+        padding: EdgeInsets.only(top: 50),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Icon(Icons.arrow_back_ios_outlined),
                   ),
                 ),
-              ),
-              // Phần bên phải: Thông tin chi tiết và nút Buy Now
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.all(40),
-                  decoration: BoxDecoration(
+                // Hiển thị hình ảnh từ base64
+                Center(
+                  child: Image.memory(
+                    bytes,
+                    height: 400,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            widget.name,
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Text(
-                            "\$${widget.price}",
-                            style: TextStyle(
-                              color: Color(0xfffd6f3e),
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        "Details",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20))),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.name,
+                          style: AppWidget.boldTextFeildStyle(),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        widget.detail,
-                        style: TextStyle(fontSize: 16, color: Colors.grey[800]),
-                      ),
-                      SizedBox(height: 40),
-                      GestureDetector(
-                        onTap: () {
-                          saveOrderToDatabase(); // Lưu đơn hàng vào cơ sở dữ liệu
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          decoration: BoxDecoration(
+                        Text(
+                          "\$" + widget.price,
+                          style: TextStyle(
+                              color: Color(0xfffd6f3e),
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Details",
+                      style: AppWidget.semiboldTextFeildStyle(),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(widget.detail),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        saveOrderToDatabase(); // Lưu đơn hàng vào cơ sở dữ liệu
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
                             color: Color(0xfffd6f3e),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          width: double.infinity,
-                          child: Center(
-                            child: Text(
-                              "Buy Now",
-                              style: TextStyle(
+                            borderRadius: BorderRadius.circular(10)),
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: Text(
+                            "Buy Now",
+                            style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      // Giữ nguyên giao diện gốc cho app
-      return Scaffold(
-        backgroundColor: Color(0xfffef5f1),
-        body: Container(
-          padding: EdgeInsets.only(top: 50),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 20),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Icon(Icons.arrow_back_ios_outlined),
-                    ),
-                  ),
-                  Center(
-                    child: Image.memory(
-                      bytes,
-                      height: 400,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20))),
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            widget.name,
-                            style: AppWidget.boldTextFeildStyle(),
-                          ),
-                          Text(
-                            "\$" + widget.price,
-                            style: TextStyle(
-                                color: Color(0xfffd6f3e),
-                                fontSize: 23,
                                 fontWeight: FontWeight.bold),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        "Details",
-                        style: AppWidget.semiboldTextFeildStyle(),
-                      ),
-                      SizedBox(height: 10),
-                      Text(widget.detail),
-                      SizedBox(height: 40),
-                      GestureDetector(
-                        onTap: () {
-                          saveOrderToDatabase(); // Lưu đơn hàng vào cơ sở dữ liệu
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                              color: Color(0xfffd6f3e),
-                              borderRadius: BorderRadius.circular(10)),
-                          width: MediaQuery.of(context).size.width,
-                          child: Center(
-                            child: Text(
-                              "Buy Now",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
                         ),
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
-            ],
-          ),
+            )
+          ],
         ),
-      );
-    }
+      ),
+    );
   }
 
   // Hàm lưu đơn hàng vào cơ sở dữ liệu
